@@ -1,0 +1,10 @@
+A basic SDL application
+
+This application has been created while following the SDL tutorials on
+http://www.sdltutorials.com/
+
+The logic of an SDL application has been split into an Activity class, inspired
+by the Android application structure.
+
+====
+vim: set tw=79:
