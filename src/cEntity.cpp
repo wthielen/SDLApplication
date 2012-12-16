@@ -1,5 +1,7 @@
 #include "cEntity.h"
 
+std::vector<cEntity *> cEntity::collection;
+
 cEntity::cEntity() {
     sfEntity = NULL;
 
