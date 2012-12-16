@@ -7,8 +7,6 @@
 #define DISPLAY_HEIGHT 600
 
 cApp::cApp() {
-    sfYoshi = NULL;
-
     width = DISPLAY_WIDTH;
     height = DISPLAY_HEIGHT;
 }
@@ -16,19 +14,28 @@ cApp::cApp() {
 bool cApp::init() {
     if (!cActivity::init()) return false;
 
-    if ((sfYoshi = cSurface::load("./gfx/yoshi.bmp")) == NULL) {
+    if (e1.load("./gfx/yoshi.bmp", 64, 64, 8) == false) {
         return false;
     }
 
-    cSurface::transparent(sfYoshi, 255, 0, 255);
+    if (e2.load("./gfx/yoshi.bmp", 64, 64, 8) == false) {
+        return false;
+    }
 
-    animYoshi.maxFrames = 8;
+    e2.x = 100;
+
+    cEntity::collection.push_back(&e1);
+    cEntity::collection.push_back(&e2);
 
     return true;
 }
 
 void cApp::loop() {
-    animYoshi.animate();
+    for (int i = 0; i < cEntity::collection.size(); i++) {
+        if (!cEntity::collection[i]) continue;
+
+        cEntity::collection[i]->loop();
+    }
 }
 
 void cApp::render() {
@@ -36,16 +43,27 @@ void cApp::render() {
     bg.x = 0;
     bg.y = 0;
     bg.w = width;
-    bg.h = width;
-    
+    bg.h = height;
+
     SDL_FillRect(display, &bg, SDL_MapRGB(display->format, 0, 0, 0));
-    cSurface::draw(display, sfYoshi, 290, 220, 0, animYoshi.getCurrentFrame() * 64, 64, 64);
+
+    for (int i = 0; i < cEntity::collection.size(); i++) {
+        if (!cEntity::collection[i]) continue;
+
+        cEntity::collection[i]->render(display);
+    }
 
     SDL_Flip(display);
 }
 
 void cApp::cleanup() {
-    SDL_FreeSurface(sfYoshi);
+    for (int i = 0; i < cEntity::collection.size(); i++) {
+        if (!cEntity::collection[i]) continue;
+
+        cEntity::collection[i]->cleanup();
+    }
+
+    cEntity::collection.clear();
 
     cActivity::cleanup();
 }

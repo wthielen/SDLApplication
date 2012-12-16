@@ -4,13 +4,12 @@
 #include <SDL/SDL.h>
 
 #include "cActivity.h"
-#include "cAnimation.h"
+#include "cEntity.h"
 
 class cApp : public cActivity {
     private:
-        SDL_Surface     *sfYoshi;
-
-        cAnimation      animYoshi;
+        cEntity     e1;
+        cEntity     e2;
 
     public:
         cApp();

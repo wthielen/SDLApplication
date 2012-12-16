@@ -50,7 +50,7 @@ void cActivity::render() {
 }
 
 void cActivity::cleanup() {
-    SDL_FreeSurface(display);
+    if (display) SDL_FreeSurface(display);
 
     SDL_Quit();
 }
