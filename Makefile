@@ -8,12 +8,13 @@ LDFLAGS = -lSDL
 
 DIRS = src
 
+INCLUDE_DIR = include
 SRC_DIR = src
 BUILD_DIR = build
 
 SRC = $(foreach sdir, $(SRC_DIR), $(wildcard $(sdir)/*.cpp))
 OBJ = $(patsubst src/%.cpp, build/%.o, $(SRC))
-INCLUDES = $(addprefix -I,$(SRC_DIR))
+INCLUDES = $(addprefix -I,$(INCLUDE_DIR))
 
 vpath %.cpp $(SRC_DIR)
 
