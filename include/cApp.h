@@ -5,8 +5,15 @@
 
 #include "cActivity.h"
 
+extern "C" {
+#include "webcam.h"
+};
+
 class cApp : public cActivity {
     private:
+        webcam_t *w;
+        buffer_t frame;
+        SDL_Surface *sfFrame;
 
     public:
         cApp();

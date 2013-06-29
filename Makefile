@@ -1,7 +1,10 @@
 # This is generated with help from StackOverflow:
 # http://stackoverflow.com/questions/231229/how-to-generate-a-makefile-with-source-in-sub-directories-using-just-one-makefil
 
-CC = g++
+
+CC = gcc
+CPP = g++
+
 LD = g++
 CFLAGS = 
 LDFLAGS = -lSDL
@@ -12,14 +15,19 @@ INCLUDE_DIR = include
 SRC_DIR = src
 BUILD_DIR = build
 
-SRC = $(foreach sdir, $(SRC_DIR), $(wildcard $(sdir)/*.cpp))
-OBJ = $(patsubst src/%.cpp, build/%.o, $(SRC))
+CPPSRC = $(foreach sdir, $(SRC_DIR), $(wildcard $(sdir)/*.cpp))
+CSRC = $(foreach sdir, $(SRC_DIR), $(wildcard $(sdir)/*.c))
+CPPOBJ = $(patsubst src/%.cpp, build/%.o, $(CPPSRC))
+COBJ = $(patsubst src/%.c, build/%.o, $(CSRC))
 INCLUDES = $(addprefix -I,$(INCLUDE_DIR))
 
 vpath %.cpp $(SRC_DIR)
+vpath %.c $(SRC_DIR)
 
 define make-cmd
 $1/%.o: %.cpp
+	$(CPP) $(INCLUDES) -c $$< -o $$@
+$1/%.o: %.c
 	$(CC) $(INCLUDES) -c $$< -o $$@
 endef
 
@@ -27,7 +35,7 @@ endef
 
 all: checkdirs build/main
 
-build/main: $(OBJ)
+build/main: $(CPPOBJ) $(COBJ)
 	$(LD) $^ -o $@ $(LDFLAGS)
 
 checkdirs: $(BUILD_DIR)

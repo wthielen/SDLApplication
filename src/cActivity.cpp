@@ -47,6 +47,13 @@ void cActivity::loop() {
 }
 
 void cActivity::render() {
+    SDL_Rect background;
+    background.x = 0;
+    background.y = 0;
+    background.w = width;
+    background.h = height;
+
+    SDL_FillRect(display, &background, SDL_MapRGB(display->format, 0, 0, 0));
 }
 
 void cActivity::cleanup() {
