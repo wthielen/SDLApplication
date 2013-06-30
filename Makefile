@@ -6,7 +6,7 @@ CC = gcc
 CPP = g++
 
 LD = g++
-CFLAGS = 
+CFLAGS = -ggdb
 LDFLAGS = -lSDL
 
 DIRS = src
@@ -36,7 +36,7 @@ endef
 all: checkdirs build/main
 
 build/main: $(CPPOBJ) $(COBJ)
-	$(LD) $^ -o $@ $(LDFLAGS)
+	$(LD) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 checkdirs: $(BUILD_DIR)
 

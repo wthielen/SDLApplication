@@ -20,15 +20,12 @@ bool cApp::init() {
 
     frame.start = NULL;
     frame.length = 0;
-    frame.initialized = false;
 
     return true;
 }
 
 void cApp::loop() {
-    if (frame.initialized) free(frame.start);
-
-    frame = webcam_grab(w);
+    webcam_grab(w, &frame);
 }
 
 void cApp::render() {
@@ -53,6 +50,8 @@ void cApp::render() {
 void cApp::cleanup() {
     webcam_stream(w, false);
     webcam_close(w);
+
+    if (frame.start != NULL) free(frame.start);
 
     cActivity::cleanup();
 }
