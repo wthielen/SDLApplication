@@ -9,41 +9,40 @@ cEvent::~cEvent() {
  
 void cEvent::onEvent(SDL_Event* ev) {
     switch(ev->type) {
-        case SDL_ACTIVEEVENT: {
-            switch(ev->active.state) {
-                case SDL_APPMOUSEFOCUS: {
-                    if (ev->active.gain)
-                        onMouseFocus();
-                    else
-                        onMouseBlur();
- 
+        case SDL_WINDOWEVENT: {
+            switch(ev->window.event) {
+                case SDL_WINDOWEVENT_FOCUS_GAINED: {
+                    onFocus();
                     break;
                 }
-                case SDL_APPINPUTFOCUS: {
-                    if (ev->active.gain)
-                        onInputFocus();
-                    else
-                        onInputBlur();
- 
+                case SDL_WINDOWEVENT_FOCUS_LOST: {
+                    onBlur();
                     break;
                 }
-                case SDL_APPACTIVE: {
-                    if (ev->active.gain)
-                        onRestore();
-                    else
-                        onMinimize();
- 
+                case SDL_WINDOWEVENT_RESTORED: {
+                    onRestore();
                     break;
                 }
-            }
+                case SDL_WINDOWEVENT_MINIMIZED: {
+                    onMinimize();
+                    break;
+                }
+                case SDL_WINDOWEVENT_RESIZED: {
+                    onResize(ev->window.data1, ev->window.data2);
+                    break;
+                }
+                case SDL_WINDOWEVENT_EXPOSED: {
+                    onExpose();
+                    break;
+                }
+             }
             break;
         }
  
         case SDL_KEYDOWN: {
             onKeyDown(
                     ev->key.keysym.sym, 
-                    ev->key.keysym.mod, 
-                    ev->key.keysym.unicode
+                    ev->key.keysym.mod
                 );
             break;
         }
@@ -51,8 +50,7 @@ void cEvent::onEvent(SDL_Event* ev) {
         case SDL_KEYUP: {
             onKeyUp(
                     ev->key.keysym.sym, 
-                    ev->key.keysym.mod, 
-                    ev->key.keysym.unicode
+                    ev->key.keysym.mod
                 );
             break;
         }
@@ -149,16 +147,7 @@ void cEvent::onEvent(SDL_Event* ev) {
             break;
         }
  
-        case SDL_VIDEORESIZE: {
-            onResize(ev->resize.w, ev->resize.h);
-            break;
-        }
- 
-        case SDL_VIDEOEXPOSE: {
-            onExpose();
-            break;
-        }
- 
+
         default: {
             onUser(
                     ev->user.type, 
@@ -171,27 +160,19 @@ void cEvent::onEvent(SDL_Event* ev) {
     }
 }
  
-void cEvent::onInputFocus() {
+void cEvent::onFocus() {
     //Pure virtual, do nothing
 }
  
-void cEvent::onInputBlur() {
+void cEvent::onBlur() {
     //Pure virtual, do nothing
 }
  
-void cEvent::onKeyDown(SDLKey key, SDLMod mod, Uint16 unicode) {
+void cEvent::onKeyDown(SDL_Keycode key, Uint16 mod) {
     //Pure virtual, do nothing
 }
  
-void cEvent::onKeyUp(SDLKey key, SDLMod mod, Uint16 unicode) {
-    //Pure virtual, do nothing
-}
- 
-void cEvent::onMouseFocus() {
-    //Pure virtual, do nothing
-}
- 
-void cEvent::onMouseBlur() {
+void cEvent::onKeyUp(SDL_Keycode key, Uint16 mod) {
     //Pure virtual, do nothing
 }
  

@@ -1,7 +1,7 @@
 #include "cActivity.h"
 
 cActivity::cActivity() {
-    display = NULL;
+    window = NULL;
     width = 0;
     height = 0;
 
@@ -36,9 +36,15 @@ bool cActivity::init() {
     width = width == 0 ? CA_DEFAULT_WIDTH : width;
     height = height == 0 ? CA_DEFAULT_HEIGHT : height;
 
-    if ((display = SDL_SetVideoMode(width, height, 32, SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL) {
-        return false;
-    }
+    window = SDL_CreateWindow(
+            "Webcam application",
+            SDL_WINDOWPOS_UNDEFINED,
+            SDL_WINDOWPOS_UNDEFINED,
+            width,
+            height,
+            SDL_WINDOW_RESIZABLE);
+        
+    if (window == NULL) return false;
 
     return true;
 }
@@ -47,17 +53,21 @@ void cActivity::loop() {
 }
 
 void cActivity::render() {
+    /*
     SDL_Rect background;
     background.x = 0;
     background.y = 0;
     background.w = width;
     background.h = height;
 
+    SDL_Surface *display = SDL_GetWindowSurface(window);
     SDL_FillRect(display, &background, SDL_MapRGB(display->format, 0, 0, 0));
+    SDL_UpdateWindowSurface(window);
+    */
 }
 
 void cActivity::cleanup() {
-    SDL_FreeSurface(display);
+    SDL_DestroyWindow(window);
 
     SDL_Quit();
 }

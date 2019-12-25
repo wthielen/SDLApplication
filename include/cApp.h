@@ -1,7 +1,7 @@
 #ifndef _CAPP_H_
 #define _CAPP_H_
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 #include "cActivity.h"
 
@@ -22,6 +22,10 @@ class cApp : public cActivity {
         void loop();
         void render();
         void cleanup();
+
+	    void updateFrame();
+
+        void onResize(int w, int h);
 };
 
 #endif

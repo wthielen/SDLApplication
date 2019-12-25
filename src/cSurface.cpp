@@ -4,17 +4,7 @@ cSurface::cSurface() {
 }
 
 SDL_Surface *cSurface::load(const char *file) {
-    SDL_Surface *temp = NULL;
-    SDL_Surface *ret = NULL;
-
-    if ((temp = SDL_LoadBMP(file)) == NULL) {
-        return NULL;
-    }
-
-    ret = SDL_DisplayFormat(temp);
-    SDL_FreeSurface(temp);
-
-    return ret;
+    return SDL_LoadBMP(file);
 }
 
 bool cSurface::draw(SDL_Surface *dest, SDL_Surface *src, int x, int y) {
@@ -52,7 +42,7 @@ bool cSurface::draw(SDL_Surface *dest, SDL_Surface *src, int x1, int y1, int x2,
 bool cSurface::transparent(SDL_Surface *dest, int r, int g, int b) {
     if (dest == NULL) return false;
 
-    SDL_SetColorKey(dest, SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(dest->format, r, g, b));
+    SDL_SetColorKey(dest, SDL_TRUE, SDL_MapRGB(dest->format, r, g, b));
 
     return true;
 }

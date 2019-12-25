@@ -1,7 +1,7 @@
 #ifndef _CSURFACE_H_
 #define _CSURFACE_H_
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 class cSurface {
     public:

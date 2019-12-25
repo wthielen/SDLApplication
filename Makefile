@@ -7,7 +7,7 @@ CPP = g++
 
 LD = g++
 CFLAGS = -ggdb
-LDFLAGS = -lSDL
+LDFLAGS = -lSDL2 -lpthread
 
 DIRS = src
 

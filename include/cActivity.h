@@ -1,7 +1,7 @@
 #ifndef _CACTIVITY_H_
 #define _CACTIVITY_H_
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 #include "cEvent.h"
 
@@ -11,7 +11,7 @@
 class cActivity : public cEvent{
     protected:
         bool        running;
-        SDL_Surface *display;
+        SDL_Window  *window;
     
         Uint16      width;
         Uint16      height;

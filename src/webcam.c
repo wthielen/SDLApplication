@@ -1,5 +1,6 @@
 #include "webcam.h"
 #include <signal.h>
+#include <sys/ioctl.h>
 
 /**
  * Keeping tabs on opened webcam devices
